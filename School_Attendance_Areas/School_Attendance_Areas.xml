@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><metadata>
+    <idinfo>
+        <citation>
+            <citeinfo>
+                <title>School Attendance Areas</title>
+                <onlink>https://gisdata.pima.gov/arcgis1/rest/services/GISOpenData/Community2/MapServer/13</onlink>
+            </citeinfo>
+        </citation>
+        <descript>
+            <abstract>https://gis.pima.gov/data/contents/metadet.cfm?name=schatbnd</abstract>
+            <purpose>School Attendance Areas</purpose>
+        </descript>
+        <spdom>
+            <bounding>
+                <westbc>-113.34999999999619</westbc>
+                <eastbc>-110.28464332397014</eastbc>
+                <northbc>32.54999999999888</northbc>
+                <southbc>31.33495875988499</southbc>
+            </bounding>
+        </spdom>
+        <keywords>
+            <theme>
+                <themekt>None</themekt>
+                <themekey>Pima County</themekey>
+                <themekey>schools</themekey>
+                <themekey>education</themekey>
+                <themekey>society</themekey>
+                <themekey>community</themekey>
+                <themekey>GIS Open Data</themekey>
+            </theme>
+        </keywords>
+        <accconst>None</accconst>
+        <useconst>GIS Data and Products Disclaimer: 
+
+We give no warranty, expressed or implied, as to
+the accuracy, reliability, or completeness of the data. This disclaimer applies both to the direct
+use of the data and any derivative products produced with the data.
+
+Any type of boundary, linear or point locations
+contained within this data, or displayed within this product, are approximate,
+and should not be used for authoritative or legal location purposes. Users should independently research,
+investigate, and verify all information to determine if the quality is
+appropriate for their intended purpose. If legally-defensible boundaries or locations are required, they should
+first be established by an appropriate state-registered professional.
+
+The information contained in the data is dynamic
+and may change over time. It is the
+responsibility of the data user to use the data appropriately and consistent
+with the intent stated in the metadata. In particular, this Open Data version
+of the dataset is intended for use either as a Shapefile download, or as a
+service within a map or private application. It is not intended for use as a
+service within another public-facing application.
+
+Per A.R.S. 37-178: A public agency that shares geospatial data of which it is the
+custodian is not liable for errors, inaccuracies or omissions and shall be held
+harmless from and against all damage, loss or liability arising from any use of
+geospatial data that is shared.</useconst>
+        <datacred>Pima County Information Technology Department - Geographic Information Systems, 33 N Stone Av, 15th Floor, Tucson, AZ 85701</datacred>
+    </idinfo>
+    <metainfo>
+        <metd>20200306</metd>
+        <metc>
+            <cntinfo>
+                <!--no contact person or organization name available-->
+            </cntinfo>
+        </metc>
+        <metstdn>FGDC Content Standard for Digital Geospatial Metadata</metstdn>
+        <metstdv>FGDC-STD-001-1998</metstdv>
+        <mettc>local time</mettc>
+    </metainfo>
+</metadata>
