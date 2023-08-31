@@ -3,6 +3,7 @@ library(readxl)
 library(tigris)
 library(tidycensus)
 library(RColorBrewer)
+options(tigris_use_cache = TRUE)
 income <- get_acs("tract", year = 2021, state = "AZ", county = "Pima", 
                   variables = c(income = "B06011_001"), geometry = T, cache_table = T)
 # plot(income['estimate'], xlim = c(-111, -110.4477))
@@ -65,7 +66,15 @@ boundaries <- merge(boundaries, grades_pima, by = "School_Code")
 library(mgcv)
 plot(K8_Total_Percentage_Earned ~ estimate, data = boundaries)
 fit <- gam(K8_Total_Percentage_Earned ~ s(estimate), data = boundaries)
-lines(sort(boundaries$estimate), fit$fitted.values[order(boundaries$estimate)], lwd = 2)
+est_grid <- seq(5000, 70000, l = 5e1)
+pred <- predict(fit, newdata = data.frame(estimate = est_grid), se.fit = T)
+lines(est_grid, pred$fit, lwd = 2)
+lines(est_grid, pred$fit + pred$se.fit * qnorm(0.025), lty = 2)
+lines(est_grid, pred$fit + pred$se.fit * qnorm(0.975), lty = 2)
+points(K8_Total_Percentage_Earned ~ estimate, 
+       data = boundaries[boundaries$NAME %in% c("SAM HUGHES ELEMENTARY SCHOOL",
+                                                "CARRILLO K-5 COMMUNICATION AND CREATIVE ARTS MAGNET SCHOOL"), ], 
+       pch = 16, col = "darkgreen", cex = 2)
 boundaries$resid <- fit$residuals
 schools <- merge(schools, as.data.frame(boundaries)[, c("NAME", "School_Code", "resid")], 
                  by.x = "SCHNAME", by.y = "NAME")
@@ -84,6 +93,10 @@ plot(boundaries_map['resid'], breaks = breaks, pal = adjustcolor(pal, 0.35),
      reset = F, bgMap = map, xlim = xlim, ylim = ylim)
 plot(schools_map['resid'], add = T, pch = 16, cex = 0.5, breaks = breaks, pal = pal)
 head(boundaries$NAME[order(boundaries$resid, decreasing = T)], 50)
+
+plot(boundaries_map['resid'], breaks = breaks, pal = adjustcolor(pal, 0.35), 
+     reset = F, bgMap = map, xlim = xlim, ylim = ylim)
+plot(schools_map['resid'], add = T, pch = 16, cex = 0.5, breaks = breaks, pal = pal)
 
 ## TAKE AWAY
 # Some underrated schools: 
