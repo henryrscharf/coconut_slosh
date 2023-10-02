@@ -73,8 +73,10 @@ lines(est_grid, pred$fit + pred$se.fit * qnorm(0.025), lty = 2)
 lines(est_grid, pred$fit + pred$se.fit * qnorm(0.975), lty = 2)
 points(K8_Total_Percentage_Earned ~ estimate, 
        data = boundaries[boundaries$NAME %in% c("SAM HUGHES ELEMENTARY SCHOOL",
-                                                "CARRILLO K-5 COMMUNICATION AND CREATIVE ARTS MAGNET SCHOOL"), ], 
-       pch = 16, col = "darkgreen", cex = 2)
+                                                "CARRILLO K-5 COMMUNICATION AND CREATIVE ARTS MAGNET SCHOOL",
+                                                "BORTON MAGNET SCHOOL",
+                                                "HOLLINGER K-8 SCHOOL"), ], 
+       pch = 16, col = hcl.colors(4), cex = 2)
 boundaries$resid <- fit$residuals
 schools <- merge(schools, as.data.frame(boundaries)[, c("NAME", "School_Code", "resid")], 
                  by.x = "SCHNAME", by.y = "NAME")
