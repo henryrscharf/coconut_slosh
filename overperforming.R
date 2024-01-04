@@ -75,8 +75,16 @@ points(K8_Total_Percentage_Earned ~ estimate,
        data = boundaries[boundaries$NAME %in% c("SAM HUGHES ELEMENTARY SCHOOL",
                                                 "CARRILLO K-5 COMMUNICATION AND CREATIVE ARTS MAGNET SCHOOL",
                                                 "BORTON MAGNET SCHOOL",
-                                                "HOLLINGER K-8 SCHOOL"), ], 
-       pch = 16, col = hcl.colors(4), cex = 2)
+                                                "ROBISON ELEMENTARY SCHOOL",
+                                                "LINEWEAVER ELEMENTARY SCHOOL"), ], 
+       pch = 16, col = hcl.colors(5), cex = 2)
+legend("bottomright", pch = 16, col = hcl.colors(5), 
+       legend = boundaries$NAME[boundaries$NAME %in% 
+                                  c("SAM HUGHES ELEMENTARY SCHOOL",
+                                    "CARRILLO K-5 COMMUNICATION AND CREATIVE ARTS MAGNET SCHOOL",
+                                    "BORTON MAGNET SCHOOL",
+                                    "ROBISON ELEMENTARY SCHOOL",
+                                    "LINEWEAVER ELEMENTARY SCHOOL")])
 boundaries$resid <- fit$residuals
 schools <- merge(schools, as.data.frame(boundaries)[, c("NAME", "School_Code", "resid")], 
                  by.x = "SCHNAME", by.y = "NAME")
