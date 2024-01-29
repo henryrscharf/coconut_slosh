@@ -4,7 +4,7 @@ library(tigris)
 library(tidycensus)
 library(RColorBrewer)
 options(tigris_use_cache = TRUE)
-income <- get_acs("tract", year = 2021, state = "AZ", county = "Pima", 
+income <- get_acs("tract", year = 2022, state = "AZ", county = "Pima", 
                   variables = c(income = "B06011_001"), geometry = T, cache_table = T)
 # plot(income['estimate'], xlim = c(-111, -110.4477))
 boundaries_utm <- st_read("School_Attendance_Areas/School_Attendance_Areas.shp")
@@ -71,20 +71,17 @@ pred <- predict(fit, newdata = data.frame(estimate = est_grid), se.fit = T)
 lines(est_grid, pred$fit, lwd = 2)
 lines(est_grid, pred$fit + pred$se.fit * qnorm(0.025), lty = 2)
 lines(est_grid, pred$fit + pred$se.fit * qnorm(0.975), lty = 2)
+focal_sch <- c("SAM HUGHES ELEMENTARY SCHOOL",
+               "CARRILLO K-5 COMMUNICATION AND CREATIVE ARTS MAGNET SCHOOL",
+               "BORTON MAGNET SCHOOL",
+               "ROBISON ELEMENTARY SCHOOL",
+               "ESCUELA MANZO ELEMENTARY SCHOOL",
+               "LINEWEAVER ELEMENTARY SCHOOL")
 points(K8_Total_Percentage_Earned ~ estimate, 
-       data = boundaries[boundaries$NAME %in% c("SAM HUGHES ELEMENTARY SCHOOL",
-                                                "CARRILLO K-5 COMMUNICATION AND CREATIVE ARTS MAGNET SCHOOL",
-                                                "BORTON MAGNET SCHOOL",
-                                                "ROBISON ELEMENTARY SCHOOL",
-                                                "LINEWEAVER ELEMENTARY SCHOOL"), ], 
-       pch = 16, col = hcl.colors(5), cex = 2)
-legend("bottomright", pch = 16, col = hcl.colors(5), 
-       legend = boundaries$NAME[boundaries$NAME %in% 
-                                  c("SAM HUGHES ELEMENTARY SCHOOL",
-                                    "CARRILLO K-5 COMMUNICATION AND CREATIVE ARTS MAGNET SCHOOL",
-                                    "BORTON MAGNET SCHOOL",
-                                    "ROBISON ELEMENTARY SCHOOL",
-                                    "LINEWEAVER ELEMENTARY SCHOOL")])
+       data = boundaries[boundaries$NAME %in% focal_sch, ], 
+       pch = 16, col = hcl.colors(length(focal_sch)), cex = 2)
+legend("bottomright", pch = 16, col = hcl.colors(length(focal_sch)), 
+       legend = boundaries$NAME[boundaries$NAME %in% focal_sch])
 boundaries$resid <- fit$residuals
 schools <- merge(schools, as.data.frame(boundaries)[, c("NAME", "School_Code", "resid")], 
                  by.x = "SCHNAME", by.y = "NAME")
