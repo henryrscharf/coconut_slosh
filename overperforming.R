@@ -24,7 +24,8 @@ names(schools) <- sapply(names(schools), function(name) gsub(" ", "_", name))
 names(schools) <- sapply(names(schools), function(name) gsub("-", "", name))
 boundaries <- merge(boundaries, as.data.frame(schools)[, c("SCHNAME", "estimate")], 
                     by.x = "NAME", by.y = "SCHNAME")
-grades <- as.data.frame(read_xlsx("FY 22 Combined A-F Public File 2023-01-24.xlsx", sheet = "Traditional K-8 Schools"))
+grades <- as.data.frame(read_xlsx("FY 22 Combined A-F Public File 2023-01-24.xlsx", 
+                                  sheet = "Traditional K-8 Schools"))
 names(grades) <- sapply(names(grades), function(name) gsub(" ", "_", name))
 names(grades) <- sapply(names(grades), function(name) gsub("-", "", name))
 grades_pima <- grades[grades$County == "Pima", ]
@@ -58,8 +59,10 @@ n_matches <- sapply(matches, length)
 table(n_matches)
 head(matches[which(n_matches == 4)])
 boundaries$School_Code <- NA
-boundaries$School_Code[which(n_matches == 1)] <- grades_pima$School_Code[unlist(matches[which(n_matches == 1)])]
+boundaries$School_Code[which(n_matches == 1)] <- 
+  grades_pima$School_Code[unlist(matches[which(n_matches == 1)])]
 boundaries <- merge(boundaries, grades_pima, by = "School_Code")
+boundaries <- boundaries[!is.na(boundaries$estimate), ]
 # plot(boundaries["Letter Grade"], xlim = c(-111, -110.4477), 
 #      pal = adjustcolor(RColorBrewer::brewer.pal(5, "RdBu"), alpha = 0.5))
 
@@ -72,6 +75,8 @@ lines(est_grid, pred$fit, lwd = 2)
 lines(est_grid, pred$fit + pred$se.fit * qnorm(0.025), lty = 2)
 lines(est_grid, pred$fit + pred$se.fit * qnorm(0.975), lty = 2)
 focal_sch <- c("SAM HUGHES ELEMENTARY SCHOOL",
+               "DRACHMAN MONTESSORI K-8 SCHOOL",
+               "ROSKRUGE BILINGUAL MAGNET K-8 SCHOOL",
                "CARRILLO K-5 COMMUNICATION AND CREATIVE ARTS MAGNET SCHOOL",
                "BORTON MAGNET SCHOOL",
                "ROBISON ELEMENTARY SCHOOL",
@@ -89,9 +94,9 @@ schools <- merge(schools, grades_pima, by = "School_Code")
 breaks <- seq(-30, 30, l = 9)
 pal <- brewer.pal(8, name = "RdBu")
 # pal[1:4] <- NA
-xlim_ll <- c(-111.01, -110.75)
+xlim_ll <- c(-111.11, -110.75)
 ylim_ll <- c(32.145, 32.32)
-map <- ggmap::get_stamenmap(c(xlim_ll[1], ylim_ll[1], xlim_ll[2], ylim_ll[2]), zoom = 13)
+map <- ggmap::get_map(c(xlim_ll[1], ylim_ll[1], xlim_ll[2], ylim_ll[2]), zoom = 12)
 xlim <- c(-12350000, -12338000)
 ylim <- c(3783000, 3804000)
 boundaries_map <- st_transform(boundaries, st_crs(3857))
@@ -101,11 +106,6 @@ plot(boundaries_map['resid'], breaks = breaks, pal = adjustcolor(pal, 0.35),
 plot(schools_map['resid'], add = T, pch = 16, cex = 0.5, breaks = breaks, pal = pal)
 head(boundaries$NAME[order(boundaries$resid, decreasing = T)], 50)
 
-plot(boundaries_map['resid'], breaks = breaks, pal = adjustcolor(pal, 0.35), 
+plot(boundaries_map[boundaries_map$NAME %in% focal_sch, 2], 
+     breaks = breaks, pal = adjustcolor(pal, 0.35), 
      reset = F, bgMap = map, xlim = xlim, ylim = ylim)
-plot(schools_map['resid'], add = T, pch = 16, cex = 0.5, breaks = breaks, pal = pal)
-
-## TAKE AWAY
-# Some underrated schools: 
-#   - Carillo
-  - 
